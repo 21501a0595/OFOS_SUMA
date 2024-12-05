@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Delivery Login</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        background: linear-gradient(135deg, #f06, #48c6ef);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+      }
+      .container {
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        padding: 30px;
+        width: 320px;
+        text-align: center;
+      }
+      h1 {
+        color: #333;
+        margin-bottom: 20px;
+        font-size: 2rem;
+      }
+      label {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 10px 0 5px;
+        color: #333;
+      }
+      input[type="email"],
+      input[type="password"] {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        box-sizing: border-box;
+        font-size: 1rem;
+      }
+      button {
+        background-color: #5cb85c;
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 8px;
+        cursor: pointer;
+        width: 100%;
+        font-size: 16px;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+      }
+      button:hover {
+        background-color: #4cae4c;
+        transform: translateY(-5px);
+      }
+      button:active {
+        transform: translateY(2px);
+      }
+      .error {
+        color: red;
+        margin-bottom: 15px;
+      }
+      p {
+        margin: 10px 0;
+      }
+      .p1 {
+        color: #333;
+      }
+      a {
+        color: #5cb85c;
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      .status-icon {
+        font-size: 1.2rem;
+        margin-left: 5px;
+      }
+      .tick {
+        color: green;
+      }
+      .wrong {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Delivery Login</h1>
+      {% if error %}
+      <p class="error">{{ error }}</p>
+      {% endif %}
+      <form method="POST">
+        {% csrf_token %}
+        <label for="emailId">Email:</label>
+        <input type="email" name="emailId" required />
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required />
+        <label for="reenterPassword">
+          Re-enter Password:
+          <span id="statusIcon" class="status-icon"></span>
+        </label>
+        <input type="password" id="reenterPassword" name="reenterPassword" required />
+        <button type="submit">Login</button>
+      </form>
+      <p class="p1">
+        Don't have an account? <a href="{% url 'delivery:signup' %}">Sign Up</a>
+      </p>
+    </div>
+    <script>
+      const password = document.getElementById("password");
+      const reenterPassword = document.getElementById("reenterPassword");
+      const statusIcon = document.getElementById("statusIcon");
+
+      reenterPassword.addEventListener("input", () => {
+        if (reenterPassword.value === password.value) {
+          statusIcon.textContent = "✔";
+          statusIcon.classList.add("tick");
+          statusIcon.classList.remove("wrong");
+        } else {
+          statusIcon.textContent = "✘";
+          statusIcon.classList.add("wrong");
+          statusIcon.classList.remove("tick");
+        }
+      });
+    </script>
+  </body>
+</html>
